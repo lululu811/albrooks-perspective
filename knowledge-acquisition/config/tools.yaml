@@ -1,0 +1,95 @@
+# 工具集成配置
+
+# ==================== 视频处理工具 ====================
+video_tools:
+  youtube_dl:
+    name: youtube-dl
+    description: "YouTube视频下载器"
+    command: "youtube-dl --write-sub --sub-lang en,zh {url}"
+    input: video_url
+    output: video_file + subtitle_file
+
+  whisper:
+    name: whisper
+    description: "语音转文字"
+    command: "whisper {audio_file} --model large --language auto"
+    input: audio_file
+    output: transcript_file
+    config:
+      model: large
+      language: auto
+
+  gemini_video:
+    name: gemini-video
+    description: "Gemini视频分析"
+    skill: gemini-video
+    input: video_file
+    output: transcript + analysis
+    config:
+      max_duration: 60min
+
+# ==================== 音频处理工具 ====================
+audio_tools:
+  whisper_api:
+    name: whisper-api
+    description: "OpenAI Whisper API"
+    api: openai
+    endpoint: /v1/audio/transcriptions
+    input: audio_file
+    output: transcript
+    config:
+      model: whisper-1
+      language: auto
+
+  podcast_transcript:
+    name: podcast-transcript
+    description: "播客transcript获取"
+    sources:
+      - podcastnotes.org
+      - transcript lookup APIs
+    input: podcast_url
+    output: transcript
+
+# ==================== 文本处理工具 ====================
+text_tools:
+  web_article_reader:
+    name: web-article-reader
+    description: "网页文章精确读取"
+    skill: web-article-reader
+    input: article_url
+    output: article_content
+    config:
+      extract_mode: full
+      preserve_formatting: true
+
+  pdf_reader:
+    name: pdf
+    description: "PDF读取器"
+    skill: pdf
+    input: pdf_file
+    output: text_content
+    config:
+      max_pages: 500
+      extract_images: false
+
+# ==================== 搜索工具 ====================
+search_tools:
+  web_search:
+    name: websearch
+    description: "网页搜索"
+    skill: websearch
+    input: search_query
+    output: search_results
+    config:
+      max_results: 20
+      language: auto
+
+  deep_research:
+    name: deep-research
+    description: "深度研究"
+    skill: deep-research
+    input: research_question
+    output: research_report
+    config:
+      depth: comprehensive
+      sources: multi

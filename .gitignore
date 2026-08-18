@@ -1,0 +1,18 @@
+# Dependencies
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime / agent state
+.omc/
+
+# Sources (user-provided) — 语料/一手素材不入库
+# 课程转写、抓取文章、书籍等原始素材不提交到远程仓库
+references/sources/
+
+# Claude
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

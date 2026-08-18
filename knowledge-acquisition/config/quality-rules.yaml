@@ -1,0 +1,52 @@
+# 信息源质量评估规则配置
+
+# ==================== 可信度评分规则 ====================
+credibility_scoring:
+  base_scores:
+    primary_source: 95        # 一手来源（Al Brooks著作/课程/官网）
+    authoritative_media: 80   # 权威媒体（Bloomberg、TradingView官方）
+    secondary_source: 50      # 二手转述（学员笔记、博客总结）
+    social_media: 40          # 社交媒体（Twitter、论坛帖子）
+    blacklisted: 0            # 黑名单来源
+
+  adjustments:
+    has_recording: +10        # 有原始视频/录音
+    has_citation: +5          # 有明确引用来源
+    no_source: -20            # 无来源
+    self_promotion: -15       # 自我宣传（课程推销）
+    conflict_of_interest: -30 # 利益冲突
+
+# ==================== 来源类型识别 ====================
+source_types:
+  primary:
+    patterns:
+      - "Al Brooks says"
+      - "According to Brooks"
+      - "In his book..."
+      - "From the course..."
+    weight: 1.0
+
+  secondary:
+    patterns:
+      - "According to students"
+      - "Brooks-style"
+      - "Based on Al Brooks method"
+    weight: 0.6
+
+  speculative:
+    patterns:
+      - "I think Brooks would..."
+      - "Probably follows..."
+    weight: 0.3
+
+# ==================== 质量门禁 ====================
+quality_gates:
+  minimum_thresholds:
+    credibility_score: 60
+    primary_source_ratio: 0.5  # Al Brooks项目要求更高的一手来源比例
+    cross_validation_passed: true
+
+  auto_reject:
+    credibility_score: 30
+    blacklisted_source: true
+    conflict_of_interest: true

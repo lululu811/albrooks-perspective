@@ -1,0 +1,81 @@
+# 知识获取渠道配置系统 v1.0
+# Al Brooks 蒸馏项目专用
+
+channels:
+  # ==================== 视频类渠道 ====================
+  video:
+    priority: 10
+    description: "视频渠道 - Brooks Pricing Course视频、YouTube访谈"
+    sub_channels:
+      youtube:
+        enabled: true
+        priority: 10
+        config:
+          search_keywords:
+            - "Al Brooks price action"
+            - "Al Brooks trading"
+            - "Al Brooks interview"
+            - "Al Brooks webinar"
+          filters:
+            duration: ">30min"
+            min_views: 1000
+          tool: youtube-dl + whisper
+
+      brooks_course:
+        enabled: true
+        priority: 10
+        config:
+          description: "Brooks Pricing Course官方课程"
+          tool: gemini-video
+          notes: "用户需提供课程视频文件"
+
+  # ==================== 文本类渠道 ====================
+  text:
+    priority: 8
+    description: "文本渠道 - 书籍、博客、论坛"
+    sub_channels:
+      brooks_books:
+        enabled: true
+        priority: 10
+        config:
+          description: "Al Brooks三部曲"
+          books:
+            - "Trading Price Action Trends"
+            - "Trading Price Action Trading Ranges"
+            - "Trading Price Action Reversals"
+          tool: pdf-reader
+
+      brooks_blog:
+        enabled: true
+        priority: 9
+        config:
+          description: "Al Brooks官网每日图表分析"
+          url: "https://brookspriceaction.com"
+          tool: web-article-reader
+
+      trading_forums:
+        enabled: true
+        priority: 6
+        config:
+          search_keywords:
+            - "Al Brooks price action"
+            - "Al Brooks method"
+          trusted_domains:
+            - futures.io
+            - nexusfi.com
+          tool: web-article-reader
+
+# ==================== 黑名单 ====================
+blacklist:
+  - zhihu.com
+  - mp.weixin.qq.com
+  - baike.baidu.com
+
+# ==================== 人物类型配置 ====================
+person_types:
+  english_figure:
+    priority_channels:
+      - youtube
+      - brooks_books
+      - brooks_blog
+    search_language: en
